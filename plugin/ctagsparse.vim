@@ -36,7 +36,6 @@ function! s:warn(message)
 endfunction
 
 function! ctagsparse#sink(line)
-  echom 'Line: '.(a:line)
   normal! m'
   try
     let [magic, &magic, wrapscan, &wrapscan, acd, &acd] = [&magic, 0, &wrapscan, 1, &acd, 0]
@@ -46,7 +45,6 @@ function! ctagsparse#sink(line)
       let base    = fnamemodify(parts[-1], ':h')
       let relpath = parts[1][:-2]
       let abspath = relpath =~ '^/' ? relpath : join([base, relpath], '/')
-      echom 'Regex: '.excmd
       execute 'e' expand(abspath, 1)
       silent execute excmd
     catch /^Vim:Interrupt$/
@@ -77,7 +75,6 @@ function! ctagsparse#tags(query)
 
   let allow_cmd = ''
   for allow in get(g:, 'ctagsparse_allow', [])
-    echom 'allow '.allow
     let allow_cmd = allow_cmd.' -a '.allow
   endfor
 
